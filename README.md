@@ -21,12 +21,11 @@ Afterwards you have to run these commands on the command line.
 ## Usage
 Create `config/initializers/settings.rb` and add your settings to it, like:
 ```ruby
-  Setting.find_or_create_by! key: 'title' do |s|
-    s.kind = 'string'
-  end
-  Setting.find_or_create_by! key: 'default_factor' do |s|
-    s.kind = 'integer'
-  end
+  YourApplication::DefaultSettings = {
+    'int_key' => { value: 5, kind: 'integer' },
+    'str_key' => { value: 'abc', kind: 'string' },
+    ...
+  }
 ```
 
 Now you can create a form.

@@ -2,11 +2,8 @@ class Setting  < ActiveRecord::Base
   validates_presence_of   :key, :kind
   validates_uniqueness_of :key
 
-  # See Rails.root/config/initializers/setting.rb for defaults
-  cattr_accessor :defaults
-
   def self.defaults
-    @@defaults || {}
+    Rails.application.class::DefaultSettings
   end
 
   def self.[](key)
