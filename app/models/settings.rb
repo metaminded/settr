@@ -14,20 +14,19 @@ class Settings
   end
 
   def method_missing(method_name, *arguments, &block)
-    if (setting = setting_model.find_by(key: method_name)).present?
-      setting.value
+    if (setting = setting_model[method_name]).present?
+      setting
     else
       super
     end
   end
 
   def respond_to?(method_name, include_private = false)
-    setting_model.find_by(key: method_name).present? || super
+    setting_model[method_name].present? || super
   end
 
-  #
   private
-  #
+
   def ducktyped_column_from(attribute, kind)
     Struct.new(:limit, :name, :type).new(
       nil,
