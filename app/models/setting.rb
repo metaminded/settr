@@ -1,4 +1,4 @@
-class Setting  < ActiveRecord::Base
+class Setting < ActiveRecord::Base
   validates_presence_of   :key, :kind
   validates_uniqueness_of :key
 
@@ -9,7 +9,7 @@ class Setting  < ActiveRecord::Base
   def self.[](key)
     setting = store[key.to_s]
 
-    return nil if setting.value.nil?
+    return nil if setting.nil? || setting.value.nil?
     case setting.kind
     when 'string'  then setting.value.to_s
     when 'float'   then setting.value.to_f
@@ -22,6 +22,7 @@ class Setting  < ActiveRecord::Base
 
   def self.[]=(key, val)
     setting = store[key.to_s]
+    return nil if setting.nil?
 
     setting.value = case setting.kind
     when 'string'  then val.to_s
@@ -33,6 +34,14 @@ class Setting  < ActiveRecord::Base
     end
     setting.save!
     setting.value
+  end
+
+  def self.get(key)
+    store[key.to_s]
+  end
+
+  def self.has_attribute?(key)
+    defaults.has_key?(key.to_s)
   end
 
   def self.clean!

@@ -17,7 +17,7 @@ class Settings
     if (setting = setting_model[method_name]).present?
       setting
     else
-      super
+      setting_model.send(method_name, *arguments, &block)
     end
   end
 
